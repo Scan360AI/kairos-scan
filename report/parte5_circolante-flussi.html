@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circolante e Flussi di Cassa - KAIROS S.R.L. | SCAN V12</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+    <style>
+        /* Stili specifici V12 (possono andare in styles.css se usati altrove) */
+        .cycle-kpi { text-align: center; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--card-border); background-color: var(--white); margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.04);}
+        .cycle-kpi .kpi-label { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 3px; }
+        .cycle-kpi .kpi-value-days-lg { font-size: 2.1rem; font-weight: 700; line-height: 1.1; }
+        .card-header-primary { background-color: rgba(25, 25, 112, 0.05); border-bottom: 1px solid rgba(25, 25, 112, 0.2); color: var(--primary); }
+        .card-header-secondary { background-color: rgba(74, 105, 189, 0.05); border-bottom: 1px solid rgba(74, 105, 189, 0.2); color: var(--secondary); }
+        .strategy-card { background-color: var(--white); border-left: 4px solid #4f6d7a; padding: 1.25rem; border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 1.5rem; }
+        .strategy-card h6 { color: #4f6d7a; margin-bottom: 0.75rem; font-weight: 600;}
+        .strategy-card ol { padding-left: 1.2rem; margin-bottom: 0; }
+        .strategy-card li { font-size: 0.85rem; margin-bottom: 0.3rem; }
+        .report-section + .report-section { margin-top: 2.5rem; }
+        .waterfall-label { font-size: 0.75rem; text-align: center; color: var(--text-secondary); margin-top: -5px; }
+        /* Altri stili V9/V11 */
+        :root {
+            --primary: #191970; --secondary: #4a69bd; --success: #4CAF50;
+            --warning: #FFC107; --danger: #F44336; --info: #0dcaf0;
+            --light: #f8f9fa; --dark: #343a40; --white: #ffffff;
+            --text-primary: #212529; --text-secondary: #6c757d;
+            --card-bg: var(--white); --card-border: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        html, body { height: 100%; overflow-x: hidden; font-family: 'Titillium Web', sans-serif; background-color: #f4f8fb; }
+        body { display: flex; }
+        .sidebar { width: 250px; background-color: var(--primary); color: #e0e0e0; position: fixed; top: 0; bottom: 0; left: 0; z-index: 1031; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); transition: width 0.3s ease; overflow-y: auto; }
+        .main-wrapper { margin-left: 250px; width: calc(100% - 250px); display: flex; flex-direction: column; min-height: 100vh; position: relative; padding-top: 70px; }
+        .dashboard-header { background-color: var(--white); padding: 15px 30px; border-bottom: 1px solid var(--card-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-height: 70px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 250px; right: 0; z-index: 1030; }
+        .dashboard-container { padding: 30px; flex-grow: 1; width: 100%; }
+        .footer { background-color: var(--primary); color: rgba(255, 255, 255, 0.7); padding: 15px 30px; font-size: 0.85rem; margin-top: auto; flex-shrink: 0; width: 100%; }
+        .footer img { max-height: 20px; width: auto; filter: brightness(0) invert(1); opacity: 0.8; vertical-align: middle;}
+        .sidebar-header { padding: 10px 20px; margin-bottom: 20px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .sidebar-header img { max-height: 40px; } .sidebar-header h5 { color: var(--white); margin-top: 10px; font-size: 1.1rem; font-weight: 600; }
+        .sidebar-nav { list-style: none; padding: 0; } .sidebar-nav .nav-item { margin: 0; }
+        .sidebar-nav .nav-link { color: #e0e0e0; padding: 12px 20px; display: flex; align-items: center; font-size: 0.95rem; font-weight: 500; border-left: 4px solid transparent; transition: all 0.2s ease; }
+        .sidebar-nav .nav-link:hover { background-color: rgba(255, 255, 255, 0.05); color: var(--white); border-left-color: var(--warning); }
+        .sidebar-nav .nav-link.active { background-color: rgba(255, 255, 255, 0.1); color: var(--white); font-weight: 600; border-left-color: var(--white); }
+        .sidebar-nav .nav-link i { margin-right: 15px; width: 20px; text-align: center; font-size: 1rem; }
+        .sidebar-nav .nav-title { padding: 10px 20px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 15px; }
+        .sidebar-footer { margin-top: auto; padding: 15px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; text-align: left; }
+        .section-title { color: var(--primary); font-weight: 600; margin-top: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--secondary); font-size: 1.75rem; display: flex; align-items: center; } .section-title i { margin-right: 10px; }
+        .dashboard-card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); transition: all 0.3s ease; height: 100%; }
+        .dashboard-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        .card-title-small { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .table { border: 1px solid var(--card-border); margin-bottom: 1rem; } .table thead th { background-color: var(--light); color: var(--primary); font-weight: 600; border-bottom: 2px solid var(--primary); font-size: 0.9rem; white-space: nowrap; } .table-hover tbody tr:hover { background-color: #eef2f7; } .table td, .table th { vertical-align: middle; padding: 0.6rem 0.75rem; font-size: 0.9rem;} .value-highlight { font-weight: 600; color: var(--primary); } .text-end { text-align: right !important;} .text-success { color: var(--success) !important; } .text-danger { color: var(--danger) !important; } .text-warning { color: var(--warning) !important; } .text-secondary { color: var(--text-secondary) !important; }
+        .alert-box { padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid; } .alert-box h5 { margin-bottom: 10px; font-size: 1.1rem; font-weight: 600;} .alert-box ul { padding-left: 20px; margin-bottom: 0; font-size: 0.9rem;} .alert-box.alert-success { background-color: #d1e7dd; border-color: #a3cfbb; color: #0a3622; } .alert-box.alert-warning { background-color: #fff3cd; border-color: #ffda6a; color: #664d03; } .alert-box.alert-danger { background-color: #f8d7da; border-color: #f1aeb5; color: #58151c; } .alert-box.alert-info { background-color: #cff4fc; border-color: #9eeaf9; color: #055160; }
+        .status-badge { font-size: .75em; font-weight: 700; line-height: 1; padding: .35em .65em; border-radius: .375rem; color: white; display: inline-block; } .status-badge.bg-success { background-color: var(--success) !important; } .status-badge.bg-warning { background-color: var(--warning) !important; color: var(--dark) !important;} .status-badge.bg-danger { background-color: var(--danger) !important; } .status-badge.bg-info { background-color: var(--info) !important; color: var(--dark) !important;}
+        .chart-container { height: 300px; margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; }
+        .icon-circle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: white; margin-right: 12px; font-size: 0.9rem; flex-shrink: 0; }
+        .bg-icon-success { background-color: var(--success); } .bg-icon-warning { background-color: var(--warning); } .bg-icon-danger { background-color: var(--danger); } .bg-icon-info { background-color: #4f6d7a; } .bg-icon-primary { background-color: var(--primary); } .bg-icon-secondary { background-color: var(--secondary); }
+        @media (max-width: 991.98px) { .sidebar { width: 0; border: none; box-shadow: none;} .main-wrapper { margin-left: 0; width: 100%; padding-top: 56px; } .dashboard-header { left: 0; width: 100%; min-height: 56px; padding: 5px 15px;} .header-title h5 { font-size: 1rem;} .header-title p { font-size: 0.75rem;} .dashboard-container { padding: 15px;} .footer { padding: 10px 15px;} }
+        @media print { body { display: block; } .main-wrapper { margin-left: 0; width: 100%; padding-top: 0; } .no-print { display: none !important; } .report-section { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar no-print">
+        <div class="sidebar-header"> <img src="../assets/img/logo_scan.png" alt="SCAN Logo" style="max-height: 40px;"> <h5>KAIROS S.R.L.</h5> </div>
+        <ul class="sidebar-nav flex-grow-1">
+            <li class="nav-item"> <a class="nav-link" href="../dashboard_v2.html"> <i class="fas fa-tachometer-alt fa-fw"></i> Dashboard </a> </li>
+            <li class="nav-title">Analisi Dettagliata</li>
+            <li class="nav-item"> <a class="nav-link" href="parte1_sintesi.html"> <i class="fas fa-file-alt fa-fw"></i> Sintesi e Profilo </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte2_economico.html"> <i class="fas fa-balance-scale fa-fw"></i> Analisi Economica </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte3_patrimoniale.html"> <i class="fas fa-landmark fa-fw"></i> Analisi Patrimoniale </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte4_bancabilita.html"> <i class="fas fa-university fa-fw"></i> Bancabilità </a> </li>
+            <li class="nav-item"> <a class="nav-link active" href="parte5_circolante_flussi.html"> <i class="fas fa-sync-alt fa-fw"></i> Circolante e Flussi </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte6_rischi-raccomandazioni.html"> <i class="fas fa-exclamation-triangle fa-fw"></i> Rischi e Azioni </a> </li>
+            <li class="nav-title">Approfondimenti</li>
+            <li class="nav-item"> <a class="nav-link" href="irp_dettaglio.html"> <i class="fas fa-shield-alt fa-fw"></i> Dettaglio IRP </a> </li>
+        </ul>
+        <div class="sidebar-footer"> <small>SCAN360 © <span id="currentYearSidebar"></span> Kitzanos</small> </div>
+    </aside>
+
+    <!-- Contenuto Principale Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header Orizzontale -->
+        <header class="dashboard-header no-print">
+            <div class="header-title">
+                <h5 class="mb-0">Report Dettagliato: Analisi Circolante e Flussi</h5>
+                <p class="mb-0">KAIROS S.R.L. | <span class="report-date">10 Giugno 2025</span></p>
+            </div>
+            <div class="header-controls d-flex align-items-center">
+                <span id="irp-header-badge" class="badge me-3"></span> <!-- Badge IRP -->
+                <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="printDocument()"> <i class="fas fa-print"></i> Stampa </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> KAIROS S.R.L. </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton"> <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li> </ul>
+                </div>
+            </div>
+        </header>
+        <div class="container d-none d-print-block mt-4 mb-4">
+            <h1 class="text-center mb-0"><span class="company-name">KAIROS S.R.L.</span></h1>
+            <p class="text-center mb-0">Report Dettagliato: Analisi Circolante e Flussi | <span class="report-date">10 Giugno 2025</span></p>
+            <hr>
+        </div>
+
+        <!-- Area Contenuto Specifico del Report -->
+        <div class="dashboard-container">
+
+            <!-- ================================================================ -->
+            <!-- CONTENUTO SPECIFICO PARTE 5 - V12 - Updated for KAIROS S.R.L. -->
+            <!-- ================================================================ -->
+
+            <h2 class="section-title" id="capital"><i class="fas fa-sync-alt me-2"></i>5.1 ANALISI CAPITALE CIRCOLANTE</h2>
+
+            <div class="card mb-4 report-section">
+                 <div class="card-header card-header-primary"><h5 class="mb-0">Sintesi Ciclo Capitale Circolante</h5></div>
+                 <div class="card-body">
+                     <p>Il capitale circolante rappresenta una componente fondamentale della struttura patrimoniale di KAIROS S.R.L., influenzando in modo determinante il fabbisogno finanziario dell'impresa. In base ai dati riportati nel bilancio 2024, l'azienda presenta un ciclo del capitale circolante pari a <strong>-25 giorni</strong>, risultante dalla configurazione di DSO, DIO e DPO. Questo valore eccellente indica che l'azienda genera autofinanziamento attraverso la gestione del circolante.</p>
+                     <div class="row gy-3 mt-4 mb-4">
+                         <div class="col-md-3 col-6"> <div class="cycle-kpi border-success"> <span class="kpi-label">DSO (Clienti)</span> <span class="kpi-value-days-lg text-success">3</span> </div> </div>
+                         <div class="col-md-3 col-6"> <div class="cycle-kpi border-success"> <span class="kpi-label">DIO (Magazzino)</span> <span class="kpi-value-days-lg text-success">0</span> </div> </div>
+                         <div class="col-md-3 col-6"> <div class="cycle-kpi border-success"> <span class="kpi-label">DPO (Fornitori)</span> <span class="kpi-value-days-lg text-success">28</span> </div> </div>
+                          <div class="col-md-3 col-6"> <div class="cycle-kpi border-success bg-light"> <span class="kpi-label">Ciclo Circolante</span> <span class="kpi-value-days-lg text-success">-25</span> </div> </div>
+                     </div>
+                     <p class="small">Il ciclo del circolante (GG Crediti Clienti: 3 gg + GG Rimanenze: 0 gg - GG Debiti Fornitori: 28 gg) è pari a: -25 gg. Questo valore negativo eccellente segnala che l'azienda si autofinanzia attraverso la gestione del capitale circolante.</p>
+
+                     <h6 class="mt-4 card-title-small">TREND CICLO CIRCOLANTE 2022-2024 (GIORNI - KAIROS S.R.L.)</h6>
+                     <div class="table-responsive">
+                         <table class="table table-sm table-striped table-hover caption-top">
+                             <caption class="small text-muted"></caption>
+                             <thead class="table-light"><tr><th>Componente</th><th class="text-end">12/2022</th><th class="text-end">12/2023</th><th class="text-end">12/2024</th><th>Trend</th></tr></thead>
+                             <tbody>
+                                 <tr><td>DSO (giorni)</td><td class="text-end">320</td><td class="text-end">79</td><td class="text-end">3</td><td class="text-success">Ottimo ↓</td></tr>
+                                 <tr><td>DIO (giorni)</td><td class="text-end">0</td><td class="text-end">0</td><td class="text-end">0</td><td class="text-secondary">Stabile</td></tr>
+                                 <tr><td>DPO (giorni)</td><td class="text-end">320</td><td class="text-end">56</td><td class="text-end">28</td><td class="text-warning">Riduzione ↓</td></tr>
+                                 <tr class="table-success fw-bold"><td>Ciclo Circolante</td><td class="text-end">0</td><td class="text-end">23</td><td class="text-end">-25</td><td class="text-success">Miglioramento ↓</td></tr>
+                             </tbody>
+                         </table>
+                     </div>
+                 </div>
+            </div>
+
+            <div class="card mb-4 report-section">
+                 <div class="card-header card-header-secondary"><h5 class="mb-0">Analisi Dettagliata Giorni e Test di Congruità</h5></div>
+                 <div class="card-body">
+                      <div class="row mb-4">
+                          <div class="col-lg-7 mb-3 mb-lg-0">
+                              <h6 class="text-center small">Grafico 5.1: Ciclo Capitale Circolante vs Benchmark (Giorni - KAIROS S.R.L.)</h6>
+                               <div class="chart-container" style="height: 320px;"> <canvas id="workingCapitalCycleChart"></canvas> </div>
+                          </div>
+                          <div class="col-lg-5 d-flex flex-column justify-content-center">
+                                <div class="alert-box alert-success p-3 mb-3">
+                                     <h6 class="mb-1"><i class="fas fa-check-circle me-2"></i>Analisi Ciclo (-25 giorni)</h6>
+                                     <p class="small mb-0">Eccellente gestione del capitale circolante con significativo miglioramento rispetto al 2023 (-48gg). Il ciclo negativo indica autofinanziamento operativo.</p>
+                                </div>
+                                 <div class="alert-box alert-info p-3 small">
+                                    <h6 class="mb-2"><i class="fas fa-info-circle me-2"></i>Componenti Chiave 2024:</h6>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong class="text-success">DSO (3gg):</strong> Eccellente, drastico miglioramento vs 2023 (79 giorni). Molto sotto benchmark (60gg).</li>
+                                        <li><strong class="text-success">DIO (0gg):</strong> Ottimale per business di servizi, assenza di magazzino.</li>
+                                        <li><strong class="text-info">DPO (28gg):</strong> Nella norma, in riduzione vs 2023 (56 giorni), sotto benchmark (30-60gg).</li>
+                                    </ul>
+                                </div>
+                          </div>
+                      </div>
+                      <hr class="my-4">
+                       <h6 class="mt-4 mb-3"><i class="fas fa-balance-scale me-1"></i> Test di Congruità Componenti (2024 - KAIROS S.R.L.)</h6>
+                       <div class="row gy-4">
+                           <!-- Test Crediti -->
+                           <div class="col-lg-4 col-md-6">
+                               <div class="dashboard-card h-100 border-success">
+                                   <h6 class="card-title-small text-success"><i class="fas fa-file-invoice-dollar me-1"></i> Crediti (DSO)</h6>
+                                   <ul class="list-unstyled small mb-0">
+                                       <li>Valore: € 88.907</li>
+                                       <li>DSO Effettivo: <strong>3 gg</strong></li>
+                                       <li>DSO Normale: 60 gg</li>
+                                       <li class="mt-2 border-top pt-2">Giorni Risparmio: <strong class="text-success">-57 gg</strong></li>
+                                       <li>Efficienza Incassi: <strong class="text-success">Eccellente</strong></li>
+                                   </ul>
+                               </div>
+                           </div>
+                            <!-- Test Debiti -->
+                           <div class="col-lg-4 col-md-6">
+                               <div class="dashboard-card h-100 border-info">
+                                   <h6 class="card-title-small text-info"><i class="fas fa-truck me-1"></i> Debiti (DPO)</h6>
+                                    <ul class="list-unstyled small mb-0">
+                                       <li>Valore: € 800.037</li>
+                                       <li>DPO Effettivo: <strong>28 gg</strong></li>
+                                       <li>DPO Standard: 30-60 gg</li>
+                                       <li class="mt-2 border-top pt-2">Posizione: <strong class="text-info">Normale</strong></li>
+                                       <li>Gestione: <strong class="text-info">Equilibrata</strong></li>
+                                   </ul>
+                               </div>
+                           </div>
+                            <!-- Test Magazzino -->
+                           <div class="col-lg-4 col-md-12">
+                               <div class="dashboard-card h-100 border-success">
+                                    <h6 class="card-title-small text-success"><i class="fas fa-boxes me-1"></i> Magazzino (DIO)</h6>
+                                     <ul class="list-unstyled small mb-0">
+                                       <li>Valore: € 0</li>
+                                       <li>DIO Effettivo: <strong>0 gg</strong></li>
+                                       <li>DIO Standard: 45 gg</li>
+                                       <li class="mt-2 border-top pt-2">Tipologia Business: <strong class="text-success">Servizi</strong></li>
+                                       <li>Efficienza: <strong class="text-success">Ottimale</strong></li>
+                                   </ul>
+                               </div>
+                           </div>
+                       </div>
+                        <div class="alert-box alert-success small mt-4 p-2">
+                           <strong>Analisi Dettagliata:</strong> La struttura del ciclo del circolante evidenzia un modello di business estremamente efficiente. L'azienda incassa dai clienti in tempi brevissimi (3 giorni), non ha immobilizzazioni in magazzino e mantiene termini di pagamento normali con i fornitori. Questa configurazione genera un autofinanziamento operativo di 25 giorni.
+                       </div>
+                       <hr class="my-4">
+                        <h6 class="mt-4 mb-3"><i class="fas fa-lightbulb me-1"></i> Strategie di Miglioramento e Impatto Finanziario Atteso (KAIROS S.R.L.)</h6>
+                         <div class="row">
+                             <div class="col-md-4">
+                                 <div class="strategy-card h-100">
+                                    <h6><i class="fas fa-file-invoice-dollar me-1"></i> Crediti Clienti</h6>
+                                     <ol>
+                                        <li>Mantenimento dell'eccellenza operativa</li>
+                                        <li>Monitoraggio qualità del credito</li>
+                                        <li>Verifica sostenibilità modello incassi</li>
+                                     </ol>
+                                     <p class="fw-bold text-secondary mt-2 mb-0">Impatto: Neutro</p>
+                                      <small class="text-muted">(DSO già ottimale)</small>
+                                 </div>
+                             </div>
+                              <div class="col-md-4">
+                                  <div class="strategy-card h-100">
+                                     <h6><i class="fas fa-boxes me-1"></i> Gestione Magazzino</h6>
+                                      <ol>
+                                        <li>Mantenimento modello asset-light</li>
+                                        <li>Focus su servizi ad alto valore</li>
+                                        <li>Evitare immobilizzazioni</li>
+                                      </ol>
+                                      <p class="fw-bold text-secondary mt-2 mb-0">Impatto: Neutro</p>
+                                      <small class="text-muted">(DIO già a zero)</small>
+                                  </div>
+                              </div>
+                               <div class="col-md-4">
+                                  <div class="strategy-card h-100">
+                                      <h6><i class="fas fa-truck me-1"></i> Debiti Fornitori</h6>
+                                       <ol>
+                                        <li>Rinegoziazione selettiva termini</li>
+                                        <li>Sfruttamento sconti cassa</li>
+                                        <li>Ottimizzazione supply chain finance</li>
+                                       </ol>
+                                       <p class="fw-bold text-success mt-2 mb-0">Impatto: +€200.000</p>
+                                       <small class="text-muted">(Target DPO 35-45gg)</small>
+                                  </div>
+                              </div>
+                         </div>
+                         <div class="alert-box alert-info text-center mt-4">
+                              <strong>Focus principale: Mantenimento dell'eccellenza operativa e ottimizzazione selettiva termini fornitori</strong>
+                         </div>
+                 </div>
+            </div>
+
+            <h2 class="section-title mt-5" id="cashflow"><i class="fas fa-stream me-2"></i>5.2 ANALISI FLUSSI DI CASSA</h2>
+
+            <div class="card mb-4 report-section">
+                 <div class="card-header card-header-primary"><h5 class="mb-0">Analisi Flussi di Cassa (da EBITDA a Variazione Netta Cassa) - 2024</h5></div>
+                 <div class="card-body">
+                     <p>L'analisi dei flussi di cassa di KAIROS S.R.L. evidenzia una situazione caratterizzata da forte generazione di cassa dal capitale circolante ma bassa conversione dell'EBITDA in cash flow operativo sostenibile.</p>
+                     <div class="row">
+                        <div class="col-lg-7 mb-3 mb-lg-0">
+                             <h6 class="text-center small">Grafico 5.2: Composizione Flussi di Cassa 2024 (Waterfall Semplificato - KAIROS S.R.L.)</h6>
+                            <div class="chart-container" style="height: 400px;"> <canvas id="cashFlowWaterfallChart"></canvas> </div>
+                        </div>
+                        <div class="col-lg-5">
+                             <h6 class="mt-1">Tabella 5.1: Dettaglio Flussi 2024 (€ - KAIROS S.R.L.)</h6>
+                             <div class="table-responsive">
+                                 <table class="table table-sm table-striped table-hover">
+                                      <thead class="table-light"><tr><th>Voce</th><th class="text-end">Valore</th><th class="text-end">% Ricavi</th></tr></thead>
+                                      <tbody>
+                                          <tr><td>EBITDA</td><td class="text-end text-success">444.854</td><td class="text-end">3,86%</td></tr>
+                                          <tr><td><i class="fas fa-plus-circle text-success fa-fw me-1"></i> Variazione Capitale Circolante</td><td class="text-end text-success">1.302.481</td><td class="text-end">11,31%</td></tr>
+                                          <tr class="table-success fw-bold"><td><i class="fas fa-equals fa-fw me-1"></i> Cash Flow Operativo</td><td class="text-end text-success">54.749</td><td class="text-end">0,48%</td></tr>
+                                          <tr><td><i class="fas fa-minus-circle text-danger fa-fw me-1"></i> Cash Flow Investimenti</td><td class="text-end text-danger">-57.274</td><td class="text-end">-0,50%</td></tr>
+                                          <tr class="table-danger fw-bold"><td><i class="fas fa-equals fa-fw me-1"></i> Free Cash Flow (FCF)</td><td class="text-end text-danger">-2.525</td><td class="text-end">-0,02%</td></tr>
+                                          <tr><td><i class="fas fa-plus-circle text-success fa-fw me-1"></i> Variazione Debiti Fin.</td><td class="text-end text-success">0</td><td class="text-end">0,00%</td></tr>
+                                          <tr class="table-danger fw-bold"><td><i class="fas fa-equals fa-fw me-1"></i> Variazione Netta Cassa</td><td class="text-end text-danger">-2.525</td><td class="text-end">-0,02%</td></tr>
+                                      </tbody>
+                                 </table>
+                                 <p class="small text-muted mt-1 mb-0">*Fonte: Report Leanus / Analisi Flussi</p>
+                             </div>
+                        </div>
+                     </div>
+                     <h6 class="mt-4">Analisi Flussi di Cassa 2024 (KAIROS S.R.L.):</h6>
+                      <div class="alert-box alert-warning small">
+                         <ul class="mb-0">
+                            <li><strong>EBITDA insufficiente (€444.854):</strong> Marginalità operativa del 3,86% sui ricavi, sotto la soglia di adeguatezza.</li>
+                            <li><strong>Eccezionale generazione da CCN (€1.302.481):</strong> La variazione del capitale circolante ha generato significativa liquidità.</li>
+                            <li><strong>Cash Flow Operativo debole (€54.749):</strong> Solo lo 0,48% dei ricavi, indicativo di criticità nella conversione.</li>
+                            <li><strong>Investimenti limitati (-€57.274):</strong> Espansione contenuta dell'attivo fisso.</li>
+                            <li><strong>Free Cash Flow marginalmente negativo (-€2.525):</strong> Equilibrio precario tra generazione e assorbimento.</li>
+                        </ul>
+                      </div>
+                 </div>
+            </div>
+
+            <div class="card mb-4 report-section">
+                 <div class="card-header card-header-secondary"><h5 class="mb-0">Trend Triennale e Proiezioni dei Flussi di Cassa</h5></div>
+                 <div class="card-body">
+                      <div class="row">
+                          <div class="col-lg-7 mb-3 mb-lg-0">
+                               <h6 class="text-center small">Grafico 5.3: Evoluzione Flussi di Cassa 2022-2024 (€ - KAIROS S.R.L.)</h6>
+                               <div class="chart-container" style="height: 320px;"> <canvas id="cashFlowTrendChart"></canvas> </div>
+                          </div>
+                           <div class="col-lg-5">
+                              <h6 class="mt-1">Interpretazione Trend (KAIROS S.R.L.):</h6>
+                               <ul class="small list-unstyled">
+                                  <li><i class="fas fa-chart-line text-success me-1"></i> <strong>Crescita Cash Flow Operativo:</strong> Da €33.089 (2022) a €54.749 (2024), CAGR +28,6%.</li>
+                                  <li><i class="fas fa-exclamation text-danger me-1"></i> <strong>Deterioramento qualitativo:</strong> CF/Ricavi sceso da 5,89% (2022) a 0,48% (2024).</li>
+                                  <li><i class="fas fa-exchange-alt text-warning me-1"></i> <strong>Volatilità CCN estrema:</strong> Da -€4.583 (2022) a €1.302.481 (2024).</li>
+                                  <li><i class="fas fa-building text-info me-1"></i> <strong>Incremento investimenti:</strong> Da -€960 (2022) a -€57.274 (2024).</li>
+                               </ul>
+                          </div>
+                      </div>
+                       <hr class="my-4">
+                       <div class="row">
+                           <div class="col-lg-7 mb-3 mb-lg-0">
+                               <h6 class="text-center small">Grafico 5.4: Proiezioni Finanziarie 2025-2028 (€ - KAIROS S.R.L.)</h6>
+                                <div class="chart-container" style="height: 320px;"> <canvas id="cashFlowProjectionChart"></canvas> </div>
+                           </div>
+                            <div class="col-lg-5">
+                                <h6 class="mt-1">Analisi Proiezioni (Piano 2025-2028):</h6>
+                                <ul class="small list-unstyled">
+                                   <li><i class="fas fa-arrow-up text-success me-1"></i> <strong>CF Operativo stabile:</strong> €282.101/anno previsto, miglioramento vs 2024.</li>
+                                   <li><i class="fas fa-ban text-info me-1"></i> <strong>No investimenti previsti:</strong> Piano conservativo senza CAPEX aggiuntivo.</li>
+                                   <li><i class="fas fa-piggy-bank text-success me-1"></i> <strong>Accumulo liquidità:</strong> Da €70.667 (2024) a €1.199.070 (2028).</li>
+                                   <li><i class="fas fa-shield-alt text-success me-1"></i> <strong>No indebitamento:</strong> Mantenimento struttura unlevered.</li>
+                                   <li><i class="fas fa-exclamation-triangle text-warning me-1"></i> <strong>Assunzioni conservative:</strong> Ricavi costanti, EBITDA margin invariato al 3,9%.</li>
+                                </ul>
+                                 <div class="alert alert-warning small p-2 mt-2">Le proiezioni assumono ricavi stabili e marginalità invariata. Considerata la crescita storica del +245% nel 2024, il piano appare eccessivamente conservativo. Opportunità di revisione al rialzo con miglioramento marginalità operativa.</div>
+                            </div>
+                       </div>
+                         <h6 class="mt-4">Suggerimenti Operativi per Miglioramento Flussi (KAIROS S.R.L.)</h6>
+                          <div class="table-responsive small">
+                            <table class="table table-sm table-striped table-hover">
+                               <thead class="table-light"><tr><th>Area</th><th>Azione Suggerita</th><th>Impatto Quantitativo Annuo</th></tr></thead>
+                               <tbody>
+                                   <tr><td>Marginalità EBITDA</td><td>Ottimizzazione struttura costi e pricing</td><td class="text-success">+€230.000-€460.000 (target 6-8%)</td></tr>
+                                   <tr><td>Cash Conversion</td><td>Miglioramento processo EBITDA-to-Cash</td><td class="text-success">+€300.000/anno</td></tr>
+                                   <tr><td>Working Capital</td><td>Stabilizzazione flussi CCN</td><td class="text-success">Riduzione volatilità 50%</td></tr>
+                                   <tr><td>Gestione Liquidità</td><td>Implementazione cash management attivo</td><td class="text-success">+€2.000-3.000 rendimenti</td></tr>
+                                   <tr><td>Struttura Finanziaria</td><td>Valutazione leverage strategico</td><td class="text-success">ROI spread positivo >100%</td></tr>
+                                   <tr class="table-primary fw-bold"><td>Complessivo</td><td>Implementazione integrata</td><td class="text-success">+€530.000-€760.000 CF incrementale</td></tr>
+                               </tbody>
+                            </table>
+                        </div>
+                        <div class="alert-box alert-info small mt-3">
+                            <strong>CONCLUSIONI:</strong> L'analisi del capitale circolante e dei flussi di cassa di KAIROS S.R.L. evidenzia un'eccellente gestione del circolante (ciclo -25 giorni) che genera autofinanziamento, ma criticità nella conversione della marginalità in cash flow sostenibile. Il Cash Flow Operativo di soli €54.749 (0,48% sui ricavi) nonostante l'EBITDA di €444.854 indica inefficienze strutturali. L'eccezionale generazione di liquidità del 2024 (€1.302.481 da CCN) ha carattere straordinario e non ripetibile. Le priorità includono: 1) Miglioramento EBITDA margin al 6-8%, 2) Ottimizzazione cash conversion rate, 3) Stabilizzazione flussi di working capital. Il potenziale di miglioramento è stimato in €530.000-€760.000 di cash flow incrementale annuo.
+                        </div>
+                 </div>
+            </div>
+
+            <!-- ================================================================ -->
+            <!-- FINE CONTENUTO SPECIFICO PARTE 5 -->
+            <!-- ================================================================ -->
+
+        </div> <!-- /dashboard-container -->
+
+        <!-- Footer Standard V2 (Corretto) -->
+        <footer class="footer no-print"> <div class="container-fluid px-4"> <div class="row align-items-center"> <div class="col-md-6 text-center text-md-start mb-2 mb-md-0"> SCAN360 © <span id="currentYearFooterReport"></span> </div> <div class="col-md-6 text-center text-md-end"> Powered by <a href="http://www.kitzanos.com" target="_blank" class="text-white fw-bold">Kitzanos Lab</a> <img src="../assets/img/logo_kitzanos.png" alt="Kitzanos Logo" class="ms-2"> </div> </div> </div> </footer>
+
+    </div> <!-- /main-wrapper -->
+
+    <!-- Bot Script -->
+    <script 
+      type="text/javascript" 
+      src="https://embed.chatnode.ai/4b455f88-b08f-4f27-a83b-59b94cdb3711/popup.js"
+      async
+    ></script>
+
+    <!-- Script JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/charts_config.js"></script>
+    <script src="../js/report_init.js"></script>
+     <script>
+        document.getElementById('currentYearSidebar').textContent = new Date().getFullYear();
+        document.getElementById('currentYearFooterReport').textContent = new Date().getFullYear();
+
+         // Script aggiornamento badge IRP header (Updated for KAIROS S.R.L.)
+         document.addEventListener('DOMContentLoaded', function() {
+             const irpScoreValue = 90.36; // IRP Score from IRP Analysis
+             const irpHeaderBadge = document.getElementById('irp-header-badge');
+             if(irpHeaderBadge) {
+                 let badgeClass = 'bg-success';
+                 if (irpScoreValue < 51) badgeClass = 'bg-danger'; // Alto
+                 else if (irpScoreValue < 71) badgeClass = 'bg-warning text-dark'; // Medio
+                 irpHeaderBadge.className = `badge ${badgeClass} me-3`;
+                 irpHeaderBadge.textContent = `IRP: ${irpScoreValue.toFixed(1)}`;
+             }
+
+              // Ensure logout function is defined
+             if (typeof logout !== 'function') {
+                 window.logout = function() {
+                    console.log("Logout action triggered (placeholder)");
+                }
+             }
+             // Ensure print function is defined
+             if (typeof printDocument !== 'function') {
+                window.printDocument = function() {
+                    window.print();
+                }
+             }
+
+             // Initialize Working Capital Cycle Chart
+             const ctxWCC = document.getElementById('workingCapitalCycleChart');
+             if(ctxWCC) {
+                 new Chart(ctxWCC, {
+                     type: 'bar',
+                     data: {
+                         labels: ['DSO', 'DIO', 'DPO', 'Ciclo Totale'],
+                         datasets: [{
+                             label: 'KAIROS 2024',
+                             data: [3, 0, -28, -25],
+                             backgroundColor: ['#4CAF50', '#4CAF50', '#4CAF50', '#4CAF50'],
+                             borderColor: ['#388E3C', '#388E3C', '#388E3C', '#388E3C'],
+                             borderWidth: 1
+                         }, {
+                             label: 'Benchmark Settore',
+                             data: [60, 45, -45, 60],
+                             backgroundColor: 'rgba(255, 193, 7, 0.6)',
+                             borderColor: '#FFA000',
+                             borderWidth: 1
+                         }]
+                     },
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         plugins: {
+                             legend: { position: 'top' },
+                             title: { display: false }
+                         },
+                         scales: {
+                             y: {
+                                 beginAtZero: true,
+                                 title: { display: true, text: 'Giorni' }
+                             }
+                         }
+                     }
+                 });
+             }
+
+             // Initialize Cash Flow Waterfall Chart
+             const ctxCFW = document.getElementById('cashFlowWaterfallChart');
+             if(ctxCFW) {
+                 new Chart(ctxCFW, {
+                     type: 'bar',
+                     data: {
+                         labels: ['EBITDA', 'Var. CCN', 'CF Operativo', 'CF Investimenti', 'FCF', 'Var. Debiti', 'Var. Cassa'],
+                         datasets: [{
+                             label: 'Flussi di Cassa 2024',
+                             data: [444854, 1302481, 54749, -57274, -2525, 0, -2525],
+                             backgroundColor: [
+                                 '#4CAF50', '#4CAF50', '#4CAF50', 
+                                 '#F44336', '#F44336', '#9E9E9E', '#F44336'
+                             ],
+                             borderColor: [
+                                 '#388E3C', '#388E3C', '#388E3C',
+                                 '#D32F2F', '#D32F2F', '#616161', '#D32F2F'
+                             ],
+                             borderWidth: 1
+                         }]
+                     },
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         plugins: {
+                             legend: { display: false },
+                             title: { display: false }
+                         },
+                         scales: {
+                             y: {
+                                 beginAtZero: true,
+                                 title: { display: true, text: 'Euro (€)' },
+                                 ticks: {
+                                     callback: function(value) {
+                                         return value.toLocaleString('it-IT');
+                                     }
+                                 }
+                             }
+                         }
+                     }
+                 });
+             }
+
+             // Initialize Cash Flow Trend Chart
+             const ctxCFT = document.getElementById('cashFlowTrendChart');
+             if(ctxCFT) {
+                 new Chart(ctxCFT, {
+                     type: 'line',
+                     data: {
+                         labels: ['2022', '2023', '2024'],
+                         datasets: [{
+                             label: 'Cash Flow Operativo',
+                             data: [33089, 27976, 54749],
+                             borderColor: '#2196F3',
+                             backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                             tension: 0.3
+                         }, {
+                             label: 'EBITDA',
+                             data: [45600, 92758, 444854],
+                             borderColor: '#4CAF50',
+                             backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                             tension: 0.3
+                         }, {
+                             label: 'Free Cash Flow',
+                             data: [32129, 27976, -2525],
+                             borderColor: '#F44336',
+                             backgroundColor: 'rgba(244, 67, 54, 0.1)',
+                             tension: 0.3
+                         }]
+                     },
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         plugins: {
+                             legend: { position: 'top' },
+                             title: { display: false }
+                         },
+                         scales: {
+                             y: {
+                                 beginAtZero: true,
+                                 title: { display: true, text: 'Euro (€)' },
+                                 ticks: {
+                                     callback: function(value) {
+                                         return value.toLocaleString('it-IT');
+                                     }
+                                 }
+                             }
+                         }
+                     }
+                 });
+             }
+
+             // Initialize Projection Chart
+             const ctxProj = document.getElementById('cashFlowProjectionChart');
+             if(ctxProj) {
+                 new Chart(ctxProj, {
+                     type: 'line',
+                     data: {
+                         labels: ['2024', '2025', '2026', '2027', '2028'],
+                         datasets: [{
+                             label: 'Liquidità Cumulata',
+                             data: [70667, 352768, 634869, 916969, 1199070],
+                             borderColor: '#4CAF50',
+                             backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                             tension: 0.3,
+                             yAxisID: 'y'
+                         }, {
+                             label: 'CF Operativo Annuo',
+                             data: [54749, 282101, 282101, 282101, 282101],
+                             borderColor: '#2196F3',
+                             backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                             tension: 0.3,
+                             yAxisID: 'y1'
+                         }]
+                     },
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         plugins: {
+                             legend: { position: 'top' },
+                             title: { display: false }
+                         },
+                         scales: {
+                             y: {
+                                 type: 'linear',
+                                 display: true,
+                                 position: 'left',
+                                 title: { display: true, text: 'Liquidità Cumulata (€)' },
+                                 ticks: {
+                                     callback: function(value) {
+                                         return value.toLocaleString('it-IT');
+                                     }
+                                 }
+                             },
+                             y1: {
+                                 type: 'linear',
+                                 display: true,
+                                 position: 'right',
+                                 title: { display: true, text: 'CF Operativo (€)' },
+                                 ticks: {
+                                     callback: function(value) {
+                                         return value.toLocaleString('it-IT');
+                                     }
+                                 },
+                                 grid: { drawOnChartArea: false }
+                             }
+                         }
+                     }
+                 });
+             }
+         });
+    </script>
+</body>
+</html>

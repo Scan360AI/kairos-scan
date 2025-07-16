@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi Patrimoniale - KAIROS S.R.L. | SCAN V9</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+    <!-- Stili specifici eventuali -->
+</head>
+<body>
+
+<!-- Sidebar -->
+    <aside class="sidebar no-print">
+        <div class="sidebar-header"> <img src="../assets/img/logo_scan.png" alt="SCAN Logo" style="max-height: 40px;"> <h5>KAIROS S.R.L.</h5> </div>
+        <ul class="sidebar-nav flex-grow-1">
+            <li class="nav-item"> <a class="nav-link" href="../dashboard_v2.html"> <i class="fas fa-tachometer-alt fa-fw"></i> Dashboard </a> </li>
+            <li class="nav-title">Analisi Dettagliata</li>
+            <li class="nav-item"> <a class="nav-link" href="parte1_sintesi.html"> <i class="fas fa-file-alt fa-fw"></i> Sintesi e Profilo </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte2_economico.html"> <i class="fas fa-balance-scale fa-fw"></i> Analisi Economica </a> </li>
+            <li class="nav-item"> <a class="nav-link active" href="parte3_patrimoniale.html"> <i class="fas fa-landmark fa-fw"></i> Analisi Patrimoniale </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte4_bancabilita.html"> <i class="fas fa-university fa-fw"></i> Bancabilità </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte5_circolante-flussi.html"> <i class="fas fa-sync-alt fa-fw"></i> Circolante e Flussi </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte6_rischi-raccomandazioni.html"> <i class="fas fa-exclamation-triangle fa-fw"></i> Rischi e Azioni </a> </li>
+            <li class="nav-title">Approfondimenti</li>
+            <li class="nav-item"> <a class="nav-link" href="irp_dettaglio.html"> <i class="fas fa-shield-alt fa-fw"></i> Dettaglio IRP </a> </li>
+            <!-- Removed Bilancio Plus Link -->
+        </ul>
+        <div class="sidebar-footer"> <small>SCAN360 © <span id="currentYearSidebar"></span> Kitzanos</small> </div>
+    </aside>
+
+
+
+    <!-- Contenuto Principale Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header Orizzontale -->
+        <header class="dashboard-header no-print">
+            <div class="header-title">
+                <h5 class="mb-0">Report Dettagliato: Analisi Patrimoniale</h5>
+                <p class="mb-0">KAIROS S.R.L. | <span class="report-date">10 Giugno 2025</span></p>
+            </div>
+            <div class="header-controls d-flex align-items-center">
+                <span id="irp-header-badge" class="badge me-3"></span> <!-- Badge IRP -->
+                <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="printDocument()"> <i class="fas fa-print"></i> Stampa </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> KAIROS S.R.L. </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton"> <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li> </ul>
+                </div>
+            </div>
+        </header>
+        <div class="container d-none d-print-block mt-4 mb-4">
+            <h1 class="text-center mb-0"><span class="company-name">KAIROS S.R.L.</span></h1>
+            <p class="text-center mb-0">Report Dettagliato: Analisi Patrimoniale | <span class="report-date">10 Giugno 2025</span></p>
+            <hr>
+        </div>
+
+        <!-- Area Contenuto Specifico del Report -->
+        <div class="dashboard-container">
+
+            <!-- ================================================================ -->
+            <!-- CONTENUTO SPECIFICO PARTE 3 - V9 - Updated for KAIROS S.R.L. -->
+            <!-- ================================================================ -->
+
+            <h2 class="section-title" id="patrimonial-analysis"><i class="fas fa-landmark me-2"></i>ANALISI PATRIMONIALE</h2>
+
+         <div class="card mb-4 report-section">
+            <div class="card-header"><h5 class="mb-0">3.1 Analisi Patrimoniale</h5></div>
+            <div class="card-body">
+                <p>L'analisi della struttura patrimoniale di KAIROS S.R.L., azienda operante nel settore "82.99.99 - Altri servizi di sostegno alle imprese", evidenzia un profilo di eccellente solidità finanziaria, caratterizzato da assenza totale di indebitamento finanziario e surplus di liquidità, come dimostrato dai principali indicatori di equilibrio patrimoniale riportati nel Report Leanus.</p>
+
+                 <!-- Grafici Composizione Attivo e Passivo -->
+                 <div class="row mt-4">
+                     <div class="col-lg-6 mb-3 mb-lg-0">
+                         <h6 class="text-center small">Grafico 3.1: Composizione Impieghi 2024 (%)</h6>
+                         <div class="chart-container" style="height: 300px;">
+                             <canvas id="assetsChart"></canvas> <!-- ID for report_init.js -->
+                         </div>
+                     </div>
+                     <div class="col-lg-6">
+                          <h6 class="text-center small">Grafico 3.2: Composizione Fonti 2024 (%)</h6>
+                          <div class="chart-container" style="height: 300px;">
+                              <canvas id="liabilitiesChart"></canvas> <!-- ID for report_init.js -->
+                          </div>
+                     </div>
+                 </div>
+
+                <h6 class="mt-4">Quadro di sintesi patrimoniale</h6>
+                <p class="small">Secondo il Report Commentato Leanus, al 12/2024 la situazione patrimoniale dell'azienda presenta i seguenti elementi chiave:</p>
+                <ul class="small">
+                    <li><strong>Patrimonio Netto</strong>: €471.487</li>
+                    <li><strong>Posizione Finanziaria Netta (PFN)</strong>: -€70.667 (surplus di liquidità)</li>
+                    <li><strong>Liquidità</strong>: €70.667</li>
+                    <li><strong>Leanus Score</strong>: "2 - Buono" con valore numerico pari a 24,82</li>
+                    <li><strong>Z-Score di Altman</strong>: 25,70</li>
+                    <li><strong>Probabilità di Default (MCC)</strong>: 1,61%, FASCIA "3"</li>
+                </ul>
+                <p class="small">La valutazione complessiva fornita da Leanus classifica l'azienda nella categoria "STAR", indicando che "l'azienda cresce a ritmi elevati e al contempo mantiene un buon equilibrio patrimoniale".</p>
+            </div>
+        </div>
+
+         <div class="card mb-4 report-section">
+            <div class="card-header"><h5 class="mb-0">3.2 Stato Patrimoniale Riclassificato (triennio)</h5></div>
+            <div class="card-body">
+                 <!-- Updated Table Data for KAIROS S.R.L. -->
+                 <div class="table-responsive">
+                     <table class="table table-sm table-striped table-hover">
+                         <thead class="table-light">
+                             <tr><th>Stato Patrimoniale (€)</th><th class="text-end">31/12/2022</th><th class="text-end">%</th><th class="text-end">31/12/2023</th><th class="text-end">%</th><th class="text-end">31/12/2024</th><th class="text-end">%</th></tr>
+                         </thead>
+                         <tbody>
+                             <tr class="fw-bold"><td>IMPIEGHI</td><td class="text-end"></td><td class="text-end"></td><td class="text-end"></td><td class="text-end"></td><td class="text-end"></td><td class="text-end"></td></tr>
+                             <tr><td>Attivo Fisso Netto</td><td class="text-end">2.364</td><td class="text-end">0,4%</td><td class="text-end">2.364</td><td class="text-end">0,2%</td><td class="text-end">59.638</td><td class="text-end">4,1%</td></tr>
+                             <tr><td>Immobilizzazioni materiali</td><td class="text-end">864</td><td class="text-end">0,2%</td><td class="text-end">864</td><td class="text-end">0,1%</td><td class="text-end">28.138</td><td class="text-end">1,9%</td></tr>
+                             <tr><td>Immobilizzazioni immateriali</td><td class="text-end">1.500</td><td class="text-end">0,3%</td><td class="text-end">1.500</td><td class="text-end">0,1%</td><td class="text-end">1.500</td><td class="text-end">0,1%</td></tr>
+                             <tr><td>Immobilizzazioni finanziarie</td><td class="text-end">0</td><td class="text-end">0%</td><td class="text-end">0</td><td class="text-end">0%</td><td class="text-end">30.000</td><td class="text-end">2,1%</td></tr>
+                             <tr><td>Capitale Circolante</td><td class="text-end">543.807</td><td class="text-end">99,6%</td><td class="text-end">1.554.975</td><td class="text-end">99,8%</td><td class="text-end">1.389.823</td><td class="text-end">95,9%</td></tr>
+                             <tr><td>Magazzino</td><td class="text-end">0</td><td class="text-end">0%</td><td class="text-end">0</td><td class="text-end">0%</td><td class="text-end">0</td><td class="text-end">0%</td></tr>
+                             <tr><td>Crediti commerciali</td><td class="text-end">498.388</td><td class="text-end">91,3%</td><td class="text-end">728.954</td><td class="text-end">46,8%</td><td class="text-end">88.907</td><td class="text-end">6,1%</td></tr>
+                             <tr><td>Altri Crediti</td><td class="text-end">203</td><td class="text-end">0%</td><td class="text-end">752.829</td><td class="text-end">48,3%</td><td class="text-end">1.230.249</td><td class="text-end">84,9%</td></tr>
+                             <tr><td>Liquidità</td><td class="text-end">45.216</td><td class="text-end">8,3%</td><td class="text-end">73.192</td><td class="text-end">4,7%</td><td class="text-end">70.667</td><td class="text-end">4,9%</td></tr>
+                             <tr class="table-primary fw-bold"><td>Totale Attivo</td><td class="text-end">546.171</td><td class="text-end">100,0%</td><td class="text-end">1.557.339</td><td class="text-end">100,0%</td><td class="text-end">1.449.461</td><td class="text-end">100,0%</td></tr>
+                         </tbody>
+                         <tbody>
+                             <tr class="fw-bold"><td>FONTI</td><td class="text-end"></td><td class="text-end"></td><td class="text-end"></td><td class="text-end"></td><td class="text-end"></td><td class="text-end"></td></tr>
+                             <tr><td>Patrimonio Netto</td><td class="text-end">49.505</td><td class="text-end">9,1%</td><td class="text-end">108.132</td><td class="text-end">6,9%</td><td class="text-end">471.487</td><td class="text-end">32,5%</td></tr>
+                             <tr><td>Capitale sociale</td><td class="text-end">10.000</td><td class="text-end">1,8%</td><td class="text-end">10.000</td><td class="text-end">0,6%</td><td class="text-end">10.000</td><td class="text-end">0,7%</td></tr>
+                             <tr><td>Riserve</td><td class="text-end">7.995</td><td class="text-end">1,5%</td><td class="text-end">39.505</td><td class="text-end">2,5%</td><td class="text-end">98.132</td><td class="text-end">6,8%</td></tr>
+                             <tr><td>Utile d'esercizio</td><td class="text-end">31.510</td><td class="text-end">5,8%</td><td class="text-end">58.627</td><td class="text-end">3,8%</td><td class="text-end">363.354</td><td class="text-end">25,1%</td></tr>
+                             <tr><td>Passività consolidate</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">0</td><td class="text-end">0,0%</td></tr>
+                             <tr><td>Debiti M/L termine</td><td class="text-end">0</td><td class="text-end">0%</td><td class="text-end">0</td><td class="text-end">0%</td><td class="text-end">0</td><td class="text-end">0,0%</td></tr>
+                             <tr><td>Fondi</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">0</td><td class="text-end">0,0%</td></tr>
+                             <tr><td>Passività correnti</td><td class="text-end">496.666</td><td class="text-end">90,9%</td><td class="text-end">1.449.207</td><td class="text-end">93,1%</td><td class="text-end">977.974</td><td class="text-end">67,5%</td></tr>
+                             <tr><td>Debiti Fornitori</td><td class="text-end">458.049</td><td class="text-end">83,9%</td><td class="text-end">500.957</td><td class="text-end">32,2%</td><td class="text-end">800.037</td><td class="text-end">55,2%</td></tr>
+                             <tr><td>Altri Debiti</td><td class="text-end">38.617</td><td class="text-end">7,1%</td><td class="text-end">948.250</td><td class="text-end">60,9%</td><td class="text-end">177.937</td><td class="text-end">12,3%</td></tr>
+                             <tr class="table-primary fw-bold"><td>Totale Passivo</td><td class="text-end">546.171</td><td class="text-end">100,0%</td><td class="text-end">1.557.339</td><td class="text-end">100,0%</td><td class="text-end">1.449.461</td><td class="text-end">100,0%</td></tr>
+                         </tbody>
+                     </table>
+                 </div>
+            </div>
+        </div>
+
+        <div class="card mb-4 report-section">
+             <div class="card-header"><h5 class="mb-0">3.3 Struttura degli Investimenti</h5></div>
+             <div class="card-body">
+                 <h6 class="mt-1">Analisi della composizione degli investimenti</h6>
+                 <p class="small">Nel triennio 2022-2024, la struttura degli investimenti di KAIROS S.R.L. mostra importanti evoluzioni:</p>
+                 <ul class="small">
+                    <li><strong>Attivo Fisso Netto</strong>: Ha registrato un incremento significativo, passando da €2.364 nel 2022 a €59.638 nel 2024, con un aumento dell'incidenza percentuale sul totale attivo dallo 0,4% al 4,1%. Questo evidenzia una strategia di investimento selettiva in assets fissi nel 2024.</li>
+                    <li><strong>Immobilizzazioni materiali</strong>: Sono aumentate da €864 (2022) a €28.138 (2024), rappresentando una crescita del 3.156% nel triennio.</li>
+                    <li><strong>Immobilizzazioni finanziarie</strong>: Comparse nel 2024 con un valore di €30.000, suggerendo investimenti in partecipazioni o altri strumenti finanziari.</li>
+                    <li><strong>Capitale Circolante</strong>: La sua incidenza sul totale attivo è diminuita dal 99,6% nel 2022 al 95,9% nel 2024, pur rimanendo la componente predominante, caratteristica tipica del settore servizi.</li>
+                    <li><strong>Magazzino</strong>: Assente in tutti e tre gli esercizi, coerentemente con il modello di business dei servizi.</li>
+                 </ul>
+                 
+                 <div class="row mt-4">
+                    <div class="col-lg-7 mb-3 mb-lg-0">
+                         <h6 class="text-center small">Grafico 3.3: Evoluzione Struttura Impieghi (€000)</h6>
+                         <div class="chart-container" style="height: 350px;">
+                             <canvas id="investmentsStructureChart"></canvas> <!-- ID for report_init.js -->
+                         </div>
+                    </div>
+                     <div class="col-lg-5">
+                         <h6 class="mt-1">Analisi Componenti chiave del Capitale Circolante:</h6>
+                         <ul class="small list-unstyled">
+                             <li class="mb-2"><span class="icon-circle icon-circle-sm bg-icon-success me-2"><i class="fas fa-file-invoice-dollar"></i></span><strong>Crediti Clienti:</strong> €88.907 (3 gg), eccezionale efficienza negli incassi.</li>
+                             <li class="mb-2"><span class="icon-circle icon-circle-sm bg-icon-info me-2"><i class="fas fa-boxes"></i></span><strong>Rimanenze:</strong> €0 (0 gg), assenza totale coerente con il settore servizi.</li>
+                             <li class="mb-2"><span class="icon-circle icon-circle-sm bg-icon-warning me-2"><i class="fas fa-file-invoice"></i></span><strong>Debiti Fornitori:</strong> €800.037 (28 gg), tempi di pagamento nella norma.</li>
+                             <li class="mb-2"><span class="icon-circle icon-circle-sm bg-icon-danger me-2"><i class="fas fa-coins"></i></span><strong>Liquidità:</strong> €70.667 (0,61% dei ricavi), valore inadeguato secondo gli standard settoriali.</li>
+                          </ul>
+                          
+                          <div class="alert alert-warning p-2 mt-3">
+                              <p class="small mb-0"><i class="fas fa-exclamation-triangle me-2"></i>L'analisi del circolante evidenzia un ciclo complessivo di -25 giorni (DSO + DIO - DPO), che indica autofinanziamento operativo attraverso il capitale circolante, situazione ottimale per la gestione della liquidità.</p>
+                          </div>
+                     </div>
+                 </div>
+             </div>
+        </div>
+
+        <div class="card mb-4 report-section">
+             <div class="card-header"><h5 class="mb-0">3.4 Struttura delle Fonti</h5></div>
+              <div class="card-body">
+                 <h6 class="mt-1">Analisi della composizione delle fonti</h6>
+                 <p class="small">Nel triennio 2022-2024, la struttura delle fonti di finanziamento di KAIROS S.R.L. presenta le seguenti caratteristiche:</p>
+                 <ul class="small">
+                    <li><strong>Patrimonio Netto</strong>: Ha registrato una crescita eccezionale, passando da €49.505 nel 2022 a €471.487 nel 2024, con un incremento del 853%. La sua incidenza sul totale delle fonti è aumentata dal 9,1% del 2022 al 32,5% del 2024.</li>
+                    <li><strong>Capitale Sociale</strong>: Rimasto stabile a €10.000 per tutto il triennio, indicando che la crescita patrimoniale è avvenuta tramite accumulo di utili.</li>
+                    <li><strong>Riserve</strong>: Sono cresciute costantemente, passando da €7.995 (2022) a €98.132 (2024), rappresentando ora il 6,8% del totale fonti.</li>
+                    <li><strong>Posizione Finanziaria Netta</strong>: Ha mantenuto un valore negativo (liquidità netta) per tutto il triennio: -€45.216 nel 2022, -€73.192 nel 2023 e -€70.667 nel 2024.</li>
+                    <li><strong>Debiti finanziari</strong>: Completamente assenti in tutti e tre gli esercizi, evidenziando una struttura finanziaria priva di indebitamento.</li>
+                 </ul>
+                 
+                 <div class="row">
+                    <div class="col-lg-6 mb-3 mb-lg-0">
+                         <h6 class="text-center small">Grafico 3.4: Evoluzione Fonti 2022-2024 (%)</h6>
+                         <div class="chart-container" style="height: 300px;">
+                             <canvas id="equityCompositionChart"></canvas> <!-- ID for report_init.js -->
+                         </div>
+                         <h6 class="mt-3">Evoluzione dell'equilibrio delle fonti:</h6>
+                          <ul class="small list-unstyled">
+                             <li class="mb-1"><i class="fas fa-arrow-circle-right text-primary me-1"></i> <strong>Straordinario aumento dell'autonomia finanziaria</strong>: L'incidenza del patrimonio netto sul totale delle fonti è aumentata dal 9,1% del 2022 al 32,5% del 2024.</li>
+                             <li class="mb-1"><i class="fas fa-arrow-circle-right text-primary me-1"></i> <strong>Assenza totale di debito finanziario</strong>: Nessun debito finanziario in tutto il triennio, situazione eccezionale per solidità.</li>
+                             <li class="mb-1"><i class="fas fa-arrow-circle-right text-primary me-1"></i> <strong>Eccezionale crescita dell'utile di esercizio</strong>: L'utile è passato da €31.510 nel 2022 a €363.354 nel 2024, con un incremento del 1.053%.</li>
+                          </ul>
+                    </div>
+                     <div class="col-lg-6">
+                        <h6 class="text-center small">Grafico 3.5: Evoluzione Liquidità e PFN (€000)</h6>
+<div class="chart-container" style="height: 300px;">
+    <canvas id="financialDebtChart"></canvas>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('financialDebtChart').getContext('2d');
+        
+        // Dati per il grafico
+        const data = {
+            labels: ["2022", "2023", "2024"],
+            datasets: [
+                { 
+                    label: "Liquidità", 
+                    data: [45.216, 73.192, 70.667], 
+                    backgroundColor: "rgba(34, 139, 34, 0.7)",
+                    type: "bar",
+                    yAxisID: 'y'
+                },
+                { 
+                    label: "Patrimonio Netto", 
+                    data: [49.505, 108.132, 471.487], 
+                    backgroundColor: "rgba(25, 25, 112, 0.7)",
+                    type: "bar",
+                    yAxisID: 'y'
+                },
+                { 
+                    label: "Rapporto D/E", 
+                    data: [0.00, 0.00, 0.00], 
+                    type: "line",
+                    borderColor: "rgba(77, 140, 87, 1)",
+                    backgroundColor: "transparent",
+                    yAxisID: 'y1',
+                    borderWidth: 2,
+                    pointBackgroundColor: "rgba(77, 140, 87, 1)",
+                    fill: false
+                }
+            ]
+        };
+        
+        // Opzioni per il grafico
+        const options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { boxWidth: 12, padding: 15, font: { size: 11 } }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleFont: { weight: 'bold', size: 13 },
+                    bodyFont: { size: 12 },
+                    padding: 10,
+                    cornerRadius: 4,
+                    displayColors: true,
+                    boxPadding: 4,
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) label += ': ';
+                            let value = context.parsed.y;
+                            
+                            if (context.dataset.label === "Rapporto D/E") {
+                                return label + value.toFixed(2) + 'x';
+                            } else {
+                                return label + value.toFixed(1) + 'K';
+                            }
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 11 } }
+                },
+                y: {
+                    grid: { color: '#e0e0e0', borderDash: [2, 3] },
+                    ticks: { 
+                        font: { size: 11 },
+                        callback: function(value) {
+                            return value + 'K';
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Valori in €000',
+                        font: { size: 10 }
+                    }
+                },
+                y1: {
+                    position: 'right',
+                    grid: { drawOnChartArea: false },
+                    ticks: { 
+                        font: { size: 11 },
+                        callback: function(value) {
+                            return value.toFixed(2) + 'x';
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Rapporto D/E',
+                        font: { size: 10 }
+                    }
+                }
+            },
+            animation: { duration: 400 }
+        };
+        
+        // Creazione del grafico
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    });
+</script>
+                          <h6 class="mt-3">Costo del capitale e del debito:</h6>
+                           <ul class="small list-unstyled">
+                              <li class="mb-1"><i class="fas fa-arrow-circle-right text-primary me-1"></i> <strong>Oneri Finanziari</strong>: €4.766 (0,04% dei Ricavi), derivanti principalmente da gestione non operativa data l'assenza di debiti finanziari.</li>
+                              <li class="mb-1"><i class="fas fa-arrow-circle-right text-primary me-1"></i> <strong>Rendimento del Capitale Proprio (ROE)</strong>: 77,07% nel 2024, eccezionale remunerazione del capitale proprio.</li>
+                              <li class="mb-1"><i class="fas fa-arrow-circle-right text-primary me-1"></i> <strong>Rendimento del Capitale Investito (ROI)</strong>: 110,99% nel 2024, valore estremamente elevato che indica eccellente efficienza operativa.</li>
+                           </ul>
+                     </div>
+                 </div>
+              </div>
+        </div>
+
+        <div class="card mb-4 report-section">
+             <div class="card-header"><h5 class="mb-0">3.5 Posizione Finanziaria Netta</h5></div>
+             <div class="card-body">
+                 <h6 class="mt-1">Evoluzione della PFN</h6>
+                 <p class="small">La Posizione Finanziaria Netta di KAIROS S.R.L. presenta una situazione di surplus di liquidità per tutto il triennio:</p>
+                 
+                 <div class="row">
+                    <div class="col-lg-7 mb-3 mb-lg-0">
+                         <h6 class="mt-1">Tabella 3.5: Analisi PFN 2022-2024 (€)</h6>
+                         <!-- Updated Table Data for KAIROS S.R.L. -->
+                         <div class="table-responsive">
+                             <table class="table table-sm table-striped table-hover">
+                                 <thead>
+                                     <tr><th>Componenti PFN (€)</th><th class="text-end">31/12/2022</th><th class="text-end">31/12/2023</th><th class="text-end">31/12/2024</th></tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr><td>Debiti finanziari M/L Termine</td><td class="text-end">0</td><td class="text-end">0</td><td class="text-end">0</td></tr>
+                                     <tr><td>Debiti finanziari Breve Termine</td><td class="text-end">0</td><td class="text-end">0</td><td class="text-end">0</td></tr>
+                                     <tr><td>Totale Debiti Finanziari</td><td class="text-end">0</td><td class="text-end">0</td><td class="text-end">0</td></tr>
+                                     <tr><td>Liquidità</td><td class="text-end">(45.216)</td><td class="text-end">(73.192)</td><td class="text-end">(70.667)</td></tr>
+                                     <tr class="fw-bold"><td>PFN</td><td class="text-end">(45.216)</td><td class="text-end">(73.192)</td><td class="text-end">(70.667)</td></tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                         
+                         <h6 class="mt-4">Indicatori di sostenibilità del debito</h6>
+                         <p class="small">Il Report fornisce alcuni indicatori chiave per valutare la posizione finanziaria:</p>
+                         <ul class="small">
+                            <li><strong>PFN/EBITDA</strong>: Configurazione ottimale con PFN negativa e EBITDA positivo (€444.854).</li>
+                            <li><strong>PFN/Patrimonio Netto</strong>: -15%, indicando surplus di liquidità pari al 15% del patrimonio netto.</li>
+                            <li><strong>EBITDA/Oneri Finanziari</strong>: 93,4x, evidenziando un'ottima capacità di copertura degli oneri finanziari.</li>
+                            <li><strong>Debt-to-Equity ratio (Leva Finanziaria)</strong>: 0,00, totale assenza di indebitamento finanziario.</li>
+                         </ul>
+                    </div>
+                     <div class="col-lg-5">
+                         <h6 class="text-center small">Grafico 3.6: Evoluzione PFN 2022-2024</h6>
+                          <div class="chart-container" style="height: 300px;">
+                             <canvas id="pfnTrendChart"></canvas>
+                         </div>
+                         <h6 class="mt-3">Indicatori di Solidità:</h6>
+                         <ul class="small list-unstyled">
+                             <li class="mb-2"><i class="fas fa-check-circle text-success me-1"></i> <strong>PFN</strong>: -€70.667 - surplus di liquidità</li>
+                             <li class="mb-2"><i class="fas fa-check-circle text-success me-1"></i> <strong>Leva Finanziaria (D/E)</strong>: 0,00 - ottima (assenza debiti)</li>
+                             <li class="mb-2"><i class="fas fa-check-circle text-success me-1"></i> <strong>Turnover</strong>: 28,73 - eccellente efficienza</li>
+                             <li class="mb-2"><i class="fas fa-check-circle text-success me-1"></i> <strong>DSCR</strong>: 24,772 - eccellente (soglia minima: 1,2)</li>
+                             <li class="mb-2"><i class="fas fa-exclamation-triangle text-warning me-1"></i> <strong>Liquidità/Ricavi</strong>: 0,61% - inadeguata (target: 2-4%)</li>
+                         </ul>
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+         <div class="card mb-4 report-section">
+            <div class="card-header"><h5 class="mb-0">3.6 Indici di Solidità Patrimoniale</h5></div>
+             <div class="card-body">
+                 <div class="table-responsive">
+                     <table class="table table-sm table-striped table-hover">
+                         <thead class="table-light"><tr><th>Indice</th><th>Formula</th><th class="text-end">31/12/2022</th><th class="text-end">31/12/2023</th><th class="text-end">31/12/2024</th><th>Valutazione</th></tr></thead>
+                         <tbody>
+                             <tr><td>Indice di Copertura delle Immobilizzazioni</td><td>PN / Immobilizzazioni</td><td class="text-end">20,94</td><td class="text-end">45,73</td><td class="text-end">7,91</td><td><span class="status-badge bg-success">Ottimo</span></td></tr>
+                             <tr><td>Leva Finanziaria (D/E)</td><td>Debiti Finanziari / PN</td><td class="text-end">0,00</td><td class="text-end">0,00</td><td class="text-end">0,00</td><td><span class="status-badge bg-success">Ottima</span></td></tr>
+                             <tr><td>Autonomia Finanziaria</td><td>PN / Totale Passivo</td><td class="text-end">9,1%</td><td class="text-end">6,9%</td><td class="text-end">32,5%</td><td><span class="status-badge bg-success">Ottima</span></td></tr>
+                             <tr><td>PFN/EBITDA</td><td>PFN / EBITDA</td><td class="text-end">Negativo</td><td class="text-end">Negativo</td><td class="text-end">Negativo</td><td><span class="status-badge bg-success">Ottimo</span></td></tr>
+                             <tr><td>ROI</td><td>EBIT / CIN</td><td class="text-end">1.049,29%</td><td class="text-end">265,48%</td><td class="text-end">110,99%</td><td><span class="status-badge bg-success">Ottimo</span></td></tr>
+                             <tr><td>Turnover</td><td>Ricavi / CIN</td><td class="text-end">13,12</td><td class="text-end">95,46</td><td class="text-end">28,73</td><td><span class="status-badge bg-success">Ottimo</span></td></tr>
+                         </tbody>
+                     </table>
+                 </div>
+                 
+                 <h6 class="mt-3">Interpretazione degli Indici</h6>
+                 <div class="row mt-3 small">
+                     <div class="col-md-6 mb-2"><i class="fas fa-check text-success me-1"></i><strong>Indice di Copertura delle Immobilizzazioni (7,91):</strong> Si attesta a un valore eccellente, ampiamente superiore alla soglia ottimale (generalmente 1,2). Il patrimonio netto copre 7,91 volte il valore delle immobilizzazioni.</div>
+                     <div class="col-md-6 mb-2"><i class="fas fa-check text-success me-1"></i><strong>Leva Finanziaria (0,00):</strong> Totale assenza di debiti finanziari, indicativa di massima solidità patrimoniale e indipendenza finanziaria.</div>
+                     <div class="col-md-6 mb-2"><i class="fas fa-check text-success me-1"></i><strong>Autonomia Finanziaria (32,5%):</strong> Eccellente miglioramento rispetto agli esercizi precedenti, ben superiore alla soglia critica del 15%.</div>
+                     <div class="col-md-6 mb-2"><i class="fas fa-check text-success me-1"></i><strong>PFN/EBITDA (negativo):</strong> Configurazione ottimale data la presenza di surplus di liquidità e EBITDA positivo.</div>
+                     <div class="col-md-6 mb-2"><i class="fas fa-check text-success me-1"></i><strong>ROI (110,99%):</strong> Valore eccezionale che indica elevatissima redditività del capitale investito.</div>
+                     <div class="col-md-6 mb-2"><i class="fas fa-check text-success me-1"></i><strong>Turnover (28,73):</strong> Eccellente efficienza nell'utilizzo del capitale, con capacità di generare ricavi 28,73 volte superiori al capitale investito.</div>
+                 </div>
+             </div>
+        </div>
+
+        <div class="card mb-4 report-section">
+            <div class="card-header"><h5 class="mb-0">3.7 Punti di Forza e Debolezza con Proposte di Miglioramento</h5></div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped table-hover">
+                        <thead class="table-light">
+                            <tr><th>Situazione attuale</th><th>Azione suggerita</th><th>Effetti previsti</th><th>Impatto quantitativo/costo</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Liquidità inadeguata</strong> (0,61% dei ricavi)</td>
+                                <td>Implementazione gestione tesoreria attiva</td>
+                                <td>Ottimizzazione liquidità operativa</td>
+                                <td>Target: 2% sui ricavi (€230.000) / Costo: €15.000</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Altri Crediti elevati</strong> (€1.230.249, 84,9% attivo)</td>
+                                <td>Analisi composizione e recuperabilità</td>
+                                <td>Riduzione rischio credito</td>
+                                <td>Quantificazione post-analisi dettagliata</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Assenza indebitamento finanziario</strong></td>
+                                <td>Valutazione opportunità leva finanziaria per crescita</td>
+                                <td>Accelerazione sviluppo</td>
+                                <td>Costo capitale <5% vs ROI 110,99%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Copertura immobilizzazioni 7,91x</strong></td>
+                                <td>Valutazione investimenti produttivi aggiuntivi</td>
+                                <td>Incremento capacità operativa</td>
+                                <td>Analisi case-by-case</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Concentrazione in Altri Crediti</strong></td>
+                                <td>Diversificazione e gestione attiva del portafoglio crediti</td>
+                                <td>Miglioramento liquidità e riduzione rischi</td>
+                                <td>Conversione 30% in liquidità: +€370.000</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ciclo circolante negativo</strong> (-25 giorni)</td>
+                                <td>Mantenimento dell'efficienza con monitoraggio continuo</td>
+                                <td>Preservazione vantaggio competitivo</td>
+                                <td>Sistema di monitoraggio: €10.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card summary-card mb-4 report-section">
+             <div class="card-body">
+                 <h5 class="card-title"><i class="fas fa-check-circle text-primary me-2"></i>3.8 Conclusioni sull'Analisi Patrimoniale</h5>
+                 
+                 <p>L'analisi patrimoniale di KAIROS S.R.L. evidenzia una struttura di eccellente solidità, caratterizzata da assenza totale di rischio finanziario e ampia disponibilità di mezzi propri. L'azienda presenta un profilo patrimoniale da manuale con un indice di copertura delle immobilizzazioni di 7,91, totale assenza di debiti finanziari (D/E = 0,00) e una PFN negativa di -€70.667 che indica surplus di liquidità.</p>
+                 
+                 <p>La crescita eccezionale del patrimonio netto (+853% nel triennio) è stata alimentata esclusivamente dalla generazione interna di utili, con un ROE del 77,07% e un ROI del 110,99% che testimoniano l'eccezionale redditività dell'azienda. Il ciclo del circolante negativo (-25 giorni) rappresenta un ulteriore punto di forza, generando autofinanziamento operativo.</p>
+                 
+                 <p>Le uniche aree di attenzione riguardano il livello di liquidità rispetto ai ricavi (0,61% vs target 2-4%) e l'elevata concentrazione in "Altri Crediti" (84,9% dell'attivo), che richiedono monitoraggio e ottimizzazione. Nonostante questi aspetti, la società beneficia di una posizione patrimoniale che le consente massima flessibilità operativa e capacità di sostenere investimenti di crescita senza ricorso a finanziamenti esterni.</p>
+                 
+                 <p class="mb-0">La sfida principale risiede nell'ottimizzazione dell'allocazione delle risorse finanziarie per massimizzare il rendimento del capitale disponibile, mantenendo la solidità patrimoniale acquisita. L'assenza di leva finanziaria, pur garantendo massima sicurezza, potrebbe rappresentare un'opportunità non sfruttata per accelerare ulteriormente la crescita aziendale.</p>
+             </div>
+         </div>
+
+            <!-- ================================================================ -->
+            <!-- FINE CONTENUTO SPECIFICO PARTE 3 -->
+            <!-- ================================================================ -->
+
+        </div> <!-- /dashboard-container -->
+
+        <!-- Footer Standard V2 (Nessuna modifica necessaria) -->
+        <footer class="footer no-print"> <div class="container-fluid px-4"> <div class="row align-items-center"> <div class="col-md-6 text-center text-md-start mb-2 mb-md-0"> SCAN360 © <span id="currentYearFooterReport"></span> </div> <div class="col-md-6 text-center text-md-end"> Powered by <a href="http://www.kitzanos.com" target="_blank" class="text-white fw-bold">Kitzanos Lab</a> <img src="../assets/img/logo_kitzanos.png" alt="Kitzanos Logo" class="ms-2"> </div> </div> </div> </footer>
+
+    </div> <!-- /main-wrapper -->
+
+    <!-- Script JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/charts_config.js"></script>
+    <script src="../js/report_init.js"></script>
+     <script>
+        document.getElementById('currentYearSidebar').textContent = new Date().getFullYear();
+        document.getElementById('currentYearFooterReport').textContent = new Date().getFullYear();
+
+         // Script aggiornamento badge IRP header (Updated for KAIROS S.R.L.)
+         document.addEventListener('DOMContentLoaded', function() {
+             const irpScoreValue = 87.50; // Estimated IRP Value for KAIROS S.R.L.
+             const irpHeaderBadge = document.getElementById('irp-header-badge');
+             if(irpHeaderBadge) {
+                 let badgeClass = 'bg-success'; // Basso rischio
+                 if (irpScoreValue >= 71) badgeClass = 'bg-success'; // Basso
+                 else if (irpScoreValue < 51) badgeClass = 'bg-danger'; // Alto
+                 irpHeaderBadge.className = `badge ${badgeClass} me-3`;
+                 irpHeaderBadge.textContent = `IRP: ${irpScoreValue.toFixed(1)}`;
+             }
+
+              // Ensure logout function is defined
+             if (typeof logout !== 'function') {
+                 window.logout = function() {
+                    console.log("Logout action triggered (placeholder)");
+                }
+             }
+             // Ensure print function is defined
+             if (typeof printDocument !== 'function') {
+                window.printDocument = function() {
+                    window.print();
+                }
+             }
+         });
+    </script>
+<script 
+  type="text/javascript" 
+  src="https://embed.chatnode.ai/4b455f88-b08f-4f27-a83b-59b94cdb3711/popup.js"
+  async
+></script>
+
+</body>
+</html>

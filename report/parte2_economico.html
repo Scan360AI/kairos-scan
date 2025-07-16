@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi Economica e Benchmark - KAIROS S.R.L. | SCAN V9</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+     <style>
+        .table-success-light { background-color: #d1e7dd !important; }
+        .table-warning-light { background-color: #fff3cd !important; }
+        .table-danger-light { background-color: #f8d7da !important; }
+     </style>
+</head>
+<body>
+ <!-- Sidebar -->
+<aside class="sidebar no-print">
+    <div class="sidebar-header"> <img src="../assets/img/logo_scan.png" alt="SCAN Logo" style="max-height: 40px;"> <h5>KAIROS S.R.L.</h5> </div>
+    <ul class="sidebar-nav flex-grow-1">
+        <li class="nav-item"> <a class="nav-link" href="../dashboard_v2.html"> <i class="fas fa-tachometer-alt fa-fw"></i> Dashboard </a> </li>
+        <li class="nav-title">Analisi Dettagliata</li>
+        <li class="nav-item"> <a class="nav-link" href="parte1_sintesi.html"> <i class="fas fa-file-alt fa-fw"></i> Sintesi e Profilo </a> </li>
+        <li class="nav-item"> <a class="nav-link active" href="parte2_economico.html"> <i class="fas fa-balance-scale fa-fw"></i> Analisi Economica </a> </li>
+        <li class="nav-item"> <a class="nav-link" href="parte3_patrimoniale.html"> <i class="fas fa-landmark fa-fw"></i> Analisi Patrimoniale </a> </li>
+        <li class="nav-item"> <a class="nav-link" href="parte4_bancabilita.html"> <i class="fas fa-university fa-fw"></i> Bancabilità </a> </li>
+        <li class="nav-item"> <a class="nav-link" href="parte5_circolante_flussi.html"> <i class="fas fa-sync-alt fa-fw"></i> Circolante e Flussi </a> </li>
+        <li class="nav-item"> <a class="nav-link" href="parte6_rischi-raccomandazioni.html"> <i class="fas fa-exclamation-triangle fa-fw"></i> Rischi e Azioni </a> </li>
+        <li class="nav-title">Approfondimenti</li>
+        <li class="nav-item"> <a class="nav-link" href="irp_dettaglio.html"> <i class="fas fa-shield-alt fa-fw"></i> Dettaglio IRP </a> </li>
+    </ul>
+    <div class="sidebar-footer"> <small>SCAN360 © <span id="currentYearSidebar"></span> Kitzanos</small> </div>
+</aside>
+
+
+<!-- Contenuto Principale Wrapper -->
+<div class="main-wrapper">
+    <!-- Header Orizzontale -->
+    <header class="dashboard-header no-print">
+        <div class="header-title">
+            <h5 class="mb-0">Report Dettagliato: Analisi Economica e Benchmark</h5>
+            <p class="mb-0">KAIROS S.R.L. | <span class="report-date">10 Giugno 2025</span></p>
+        </div>
+        <div class="header-controls d-flex align-items-center">
+            <span id="irp-header-badge" class="badge me-3"></span> <!-- Badge IRP -->
+            <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="printDocument()"> <i class="fas fa-print"></i> Stampa </button>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> KAIROS S.R.L. </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton"> <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li> </ul>
+            </div>
+        </div>
+    </header>
+    <div class="container d-none d-print-block mt-4 mb-4">
+        <h1 class="text-center mb-0"><span class="company-name">KAIROS S.R.L.</span></h1>
+        <p class="text-center mb-0">Report Dettagliato: Analisi Economica e Benchmark | <span class="report-date">10 Giugno 2025</span></p>
+        <hr>
+    </div>
+
+    <!-- Area Contenuto Specifico del Report -->
+    <div class="dashboard-container">
+
+        <!-- ================================================================ -->
+        <!-- CONTENUTO SPECIFICO PARTE 2 - V9 - Updated for KAIROS S.R.L. -->
+        <!-- ================================================================ -->
+
+         <h2 class="section-title" id="economic-analysis"><i class="fas fa-balance-scale me-2"></i>SEZIONE 2.1: ANALISI ECONOMICA</h2>
+
+        <div class="card mb-4 report-section">
+            <div class="card-header"><h5 class="mb-0">2.1.1 Conto Economico Riclassificato</h5></div>
+            <div class="card-body">
+                <p>Il conto economico riclassificato evidenzia la struttura dei costi e dei ricavi di KAIROS S.R.L. nel periodo 2022-2024, caratterizzata da una crescita eccezionale dei volumi d'affari nel settore dei servizi di supporto alle imprese.</p>
+
+                 <h6 class="mt-4 text-center small">Grafico 2.1: Andamento Ricavi ed EBITDA 2022-2024 (€000 e %)</h6>
+                 <div class="chart-container mb-4" style="height: 350px;">
+                     <canvas id="economicTrendChart"></canvas>
+                 </div>
+
+                <h6 class="mt-4">Tabella 2.1: Conto Economico Riclassificato 2022-2024 (valori in €)</h6>
+                 <div class="table-responsive">
+                     <table class="table table-sm table-striped table-hover">
+                         <thead class="table-light">
+                             <tr><th>Voce</th><th class="text-end">2022</th><th class="text-end">% Ricavi</th><th class="text-end">2023</th><th class="text-end">% Ricavi</th><th class="text-end">2024</th><th class="text-end">% Ricavi</th><th class="text-end">Var. % 23-24</th></tr>
+                         </thead>
+                         <tbody>
+                             <tr><td>Ricavi</td><td class="text-end">561.500</td><td class="text-end">100,0%</td><td class="text-end">3.335.654</td><td class="text-end">100,0%</td><td class="text-end">11.515.149</td><td class="text-end">100,0%</td><td class="text-success">+245,21%</td></tr>
+                             <tr><td>Acquisti</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">-14.754</td><td class="text-end">-0,4%</td><td class="text-end">-457.313</td><td class="text-end">-4,0%</td><td class="text-danger">+2.999,4%</td></tr>
+                             <tr><td>Valore Aggiunto su Consumi</td><td class="text-end">561.500</td><td class="text-end">100,0%</td><td class="text-end">3.320.900</td><td class="text-end">99,6%</td><td class="text-end">11.057.835</td><td class="text-end">96,0%</td><td class="text-success">+233,05%</td></tr>
+                             <tr><td>Costi Variabili Produzione</td><td class="text-end">-515.900</td><td class="text-end">-91,9%</td><td class="text-end">-3.213.599</td><td class="text-end">-96,3%</td><td class="text-end">-10.030.661</td><td class="text-end">-87,1%</td><td class="text-danger">+212,1%</td></tr>
+                             <tr class="table-secondary"><td>Margine di Contribuzione</td><td class="text-end">45.600</td><td class="text-end">8,1%</td><td class="text-end">107.301</td><td class="text-end">3,2%</td><td class="text-end">1.027.174</td><td class="text-end">8,9%</td><td class="text-success">+857,28%</td></tr>
+                             <tr><td>Costi Fissi Produzione</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">-14.543</td><td class="text-end">-0,4%</td><td class="text-end">-582.320</td><td class="text-end">-5,1%</td><td class="text-danger">+3.903,7%</td></tr>
+                             <tr><td>- di cui Personale</td><td class="text-end">n.d.</td><td class="text-end">n.d.</td><td class="text-end">n.d.</td><td class="text-end">n.d.</td><td class="text-end">-569.766</td><td class="text-end">-4,95%</td><td class="text-danger">n.a.</td></tr>
+                             <tr class="table-success fw-bold"><td>EBITDA</td><td class="text-end">45.600</td><td class="text-end">8,1%</td><td class="text-end">92.758</td><td class="text-end">2,8%</td><td class="text-end">444.854</td><td class="text-end">3,86%</td><td class="text-success">+379,59%</td></tr>
+                             <tr><td>Ammortamenti e Svalutazioni</td><td class="text-end">-596</td><td class="text-end">-0,1%</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-secondary">n.a.</td></tr>
+                             <tr><td>EBIT</td><td class="text-end">45.004</td><td class="text-end">8,0%</td><td class="text-end">92.758</td><td class="text-end">2,8%</td><td class="text-end">444.854</td><td class="text-end">3,86%</td><td class="text-success">+379,59%</td></tr>
+                             <tr><td>Saldo Oneri/Ricavi Diversi</td><td class="text-end">-101</td><td class="text-end">0,0%</td><td class="text-end">-15.196</td><td class="text-end">-0,5%</td><td class="text-end">-77.150</td><td class="text-end">-0,7%</td><td class="text-danger">+407,7%</td></tr>
+                             <tr><td>Margine Ante Gestione Finanziaria</td><td class="text-end">44.903</td><td class="text-end">8,0%</td><td class="text-end">77.562</td><td class="text-end">2,3%</td><td class="text-end">367.704</td><td class="text-end">3,2%</td><td class="text-success">+374,2%</td></tr>
+                             <tr><td>Gestione Finanziaria</td><td class="text-end">-2.226</td><td class="text-end">-0,4%</td><td class="text-end">-1.996</td><td class="text-end">-0,1%</td><td class="text-end">-4.766</td><td class="text-end">0,0%</td><td class="text-danger">+138,8%</td></tr>
+                             <tr><td>Risultato Ante Imposte</td><td class="text-end">42.677</td><td class="text-end">7,6%</td><td class="text-end">75.566</td><td class="text-end">2,3%</td><td class="text-end">362.938</td><td class="text-end">3,2%</td><td class="text-success">+380,4%</td></tr>
+                             <tr><td>Imposte</td><td class="text-end">-11.167</td><td class="text-end">-2,0%</td><td class="text-end">-16.939</td><td class="text-end">-0,5%</td><td class="text-end">416</td><td class="text-end">0,0%</td><td class="text-secondary">-102,5%</td></tr>
+                             <tr class="table-success fw-bold"><td>Utile/Perdita d'esercizio</td><td class="text-end">31.510</td><td class="text-end">5,6%</td><td class="text-end">58.627</td><td class="text-end">1,8%</td><td class="text-end">363.354</td><td class="text-end">3,16%</td><td class="text-success">+519,89%</td></tr>
+                         </tbody>
+                     </table>
+                 </div>
+
+                <h6 class="mt-4">Analisi della composizione dei costi</h6>
+                 <div class="table-responsive">
+                     <table class="table table-sm table-striped table-hover">
+                         <thead class="table-light">
+                             <tr><th>Categoria di costo</th><th class="text-end">2022</th><th class="text-end">% Ricavi</th><th class="text-end">2023</th><th class="text-end">% Ricavi</th><th class="text-end">2024</th><th class="text-end">% Ricavi</th><th class="text-end">Var.% 23-24</th></tr>
+                         </thead>
+                         <tbody>
+                             <tr><td>Acquisti</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">14.754</td><td class="text-end">0,4%</td><td class="text-end">457.313</td><td class="text-end">4,0%</td><td class="text-danger">+2.999,4%</td></tr>
+                             <tr><td>Costi Variabili Produzione</td><td class="text-end">515.900</td><td class="text-end">91,9%</td><td class="text-end">3.213.599</td><td class="text-end">96,3%</td><td class="text-end">10.030.661</td><td class="text-end">87,1%</td><td class="text-danger">+212,1%</td></tr>
+                             <tr><td>Costi Fissi Produzione</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">14.543</td><td class="text-end">0,4%</td><td class="text-end">582.320</td><td class="text-end">5,1%</td><td class="text-danger">+3.903,7%</td></tr>
+                             <tr><td>- Personale</td><td class="text-end">n.d.</td><td class="text-end">n.d.</td><td class="text-end">n.d.</td><td class="text-end">n.d.</td><td class="text-end">569.766</td><td class="text-end">4,95%</td><td class="text-danger">n.a.</td></tr>
+                             <tr><td>Ammortamenti</td><td class="text-end">596</td><td class="text-end">0,1%</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-secondary">n.a.</td></tr>
+                             <tr><td>Oneri Diversi di Gestione</td><td class="text-end">101</td><td class="text-end">0,0%</td><td class="text-end">15.196</td><td class="text-end">0,5%</td><td class="text-end">77.163</td><td class="text-end">0,7%</td><td class="text-danger">+407,8%</td></tr>
+                             <tr><td>Oneri Finanziari</td><td class="text-end">2.226</td><td class="text-end">0,4%</td><td class="text-end">1.996</td><td class="text-end">0,1%</td><td class="text-end">4.766</td><td class="text-end">0,0%</td><td class="text-danger">+138,8%</td></tr>
+                             <tr><td>Imposte</td><td class="text-end">11.167</td><td class="text-end">2,0%</td><td class="text-end">16.939</td><td class="text-end">0,5%</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-success">-100,0%</td></tr>
+                             <tr class="table-warning"><td>EBITDA Margin Target Settore</td><td class="text-end">-</td><td class="text-end">>8%</td><td class="text-end">-</td><td class="text-end">>8%</td><td class="text-end">-</td><td class="text-end">>8%</td><td class="text-danger">Gap: -4,14%</td></tr>
+                         </tbody>
+                     </table>
+                 </div>
+
+                <h6 class="mt-4">Analisi del Conto Economico (KAIROS S.R.L.):</h6>
+                <ol class="small">
+                    <li><strong>Ricavi:</strong> Crescita eccezionale del 245,21% nel 2024 rispetto al 2023, passando da €3.335.654 a €11.515.149, evidenziando un'espansione straordinaria nel settore dei servizi di supporto alle imprese.</li>
+                    <li><strong>Margine di Contribuzione (8,9%):</strong> Significativo miglioramento rispetto al 2023 (3,2%), con un incremento dell'857,28%, indicando un recupero dell'efficienza operativa nonostante l'elevata incidenza dei costi variabili (87,1%).</li>
+                    <li><strong>EBITDA (3,86%):</strong> Incremento del 379,59% in valore assoluto rispetto al 2023, ma l'incidenza sui ricavi rimane sotto la soglia di adeguatezza del 4% e significativamente inferiore al benchmark di settore (>8%).</li>
+                    <li><strong>Anomalie strutturali:</strong> Assenza di ammortamenti nel 2024 nonostante la presenza di immobilizzazioni materiali per €28.138, suggerendo possibili riclassificazioni contabili da approfondire.</li>
+                    <li><strong>Utile Netto:</strong> Crescita straordinaria del 519,89% rispetto all'anno precedente, passando da €58.627 a €363.354, con un'incidenza sui ricavi del 3,16%.</li>
+                    <li><strong>Costo del personale:</strong> Incidenza del 4,95% sui ricavi, anormalmente bassa per il settore dei servizi (benchmark 15-25%), suggerendo possibile esternalizzazione o sottostima.</li>
+                    <li><strong>Moltiplicatore dei costi fissi:</strong> Pari a 11,21, indicando elevata leva operativa che richiede attenzione nella gestione della crescita.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script src="../js/common.js"></script>
+
+<!-- Script per il grafico -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Dati per il grafico
+        const years = ['2022', '2023', '2024'];
+        const revenues = [561500, 3335654, 11515149];
+        const ebitda = [45600, 92758, 444854];
+        const ebitdaPercentage = [8.1, 2.8, 3.86];
+        
+        // Formattazione per le etichette
+        const formatter = new Intl.NumberFormat('it-IT', {
+            style: 'currency',
+            currency: 'EUR',
+            maximumFractionDigits: 0
+        });
+        
+        // Inizializzazione del grafico
+        const ctx = document.getElementById('economicTrendChart').getContext('2d');
+        const economicTrendChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: years,
+                datasets: [
+                    {
+                        label: 'Ricavi',
+                        data: revenues,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        order: 1
+                    },
+                    {
+                        label: 'EBITDA',
+                        data: ebitda,
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        order: 2
+                    },
+                    {
+                        label: 'EBITDA %',
+                        data: ebitdaPercentage,
+                        type: 'line',
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(255, 159, 64, 1)',
+                        pointRadius: 4,
+                        yAxisID: 'y1',
+                        order: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Valori in Euro'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return formatter.format(value).replace('€', '€ ');
+                            }
+                        }
+                    },
+                    y1: {
+                        position: 'right',
+                        beginAtZero: true,
+                        max: 10,
+                        title: {
+                            display: true,
+                            text: 'EBITDA %'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.dataset.yAxisID === 'y1') {
+                                    label += context.parsed.y + '%';
+                                } else {
+                                    label += formatter.format(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+        
+        // Aggiorna l'anno corrente nel footer
+        document.getElementById('currentYearSidebar').textContent = new Date().getFullYear();
+        
+        // Imposta il badge IRP
+        const irpValue = 82.15;
+        const irpBadge = document.getElementById('irp-header-badge');
+        irpBadge.textContent = `IRP: ${irpValue} (B+)`;
+        irpBadge.classList.add('bg-success');
+    });
+    
+    function printDocument() {
+        window.print();
+    }
+    
+    function logout() {
+        // Implementazione del logout
+        alert('Logout effettuato');
+        window.location.href = '../login.html';
+    }
+</script>
+
+<!-- Script del bot -->
+<script 
+  type="text/javascript" 
+  src="https://embed.chatnode.ai/4b455f88-b08f-4f27-a83b-59b94cdb3711/popup.js"
+  async
+></script>
+</body>
+</html>
