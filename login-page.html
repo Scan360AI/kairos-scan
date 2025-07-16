@@ -7,18 +7,67 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
-     <style>
+    <style>
+        :root {
+            --primary: rgb(25, 25, 112);
+            --primary-dark: #13134f;
+        }
+        
         /* Stili aggiuntivi specifici per login */
-        html, body { height: 100%; }
-        body { display: flex; align-items: center; padding-top: 40px; padding-bottom: 40px; background-color: #eef2f7; }
-        .login-container { max-width: 450px; margin: auto; }
-        .login-card-header { background-color: var(--primary); color: white; border-radius: 8px 8px 0 0 !important; padding: 1rem 1.5rem; }
-        .login-btn { background-color: var(--primary); border-color: var(--primary); padding: 0.75rem 1.5rem; font-weight: 600; color: white !important;}
-        .login-btn:hover { background-color: #13134f; border-color: #13134f; }
-        .powered-by img { max-height: 25px; filter: grayscale(50%);}
-        .watermark-login { text-align: center; margin-top: 20px; color: #6c757d; font-size: 0.8rem; }
-     </style>
+        html, body { 
+            height: 100%; 
+        }
+        
+        body { 
+            display: flex; 
+            align-items: center; 
+            padding-top: 40px; 
+            padding-bottom: 40px; 
+            background-color: #eef2f7; 
+            font-family: 'Titillium Web', sans-serif;
+        }
+        
+        .login-container { 
+            max-width: 450px; 
+            margin: auto; 
+        }
+        
+        .login-card-header { 
+            background-color: var(--primary); 
+            color: white; 
+            border-radius: 8px 8px 0 0 !important; 
+            padding: 1rem 1.5rem; 
+        }
+        
+        .login-btn { 
+            background-color: var(--primary); 
+            border-color: var(--primary); 
+            padding: 0.75rem 1.5rem; 
+            font-weight: 600; 
+            color: white !important;
+        }
+        
+        .login-btn:hover { 
+            background-color: var(--primary-dark); 
+            border-color: var(--primary-dark); 
+        }
+        
+        .powered-by img { 
+            max-height: 25px; 
+            filter: grayscale(50%);
+        }
+        
+        .watermark-login { 
+            text-align: center; 
+            margin-top: 20px; 
+            color: #6c757d; 
+            font-size: 0.8rem; 
+        }
+        
+        .alert {
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body>
     <div class="login-container w-100">
@@ -33,45 +82,134 @@
                     <p class="text-muted small mb-0">Analisi Finanziaria KAIROS S.R.L.</p>
                     <p class="text-muted small">C.F. 10486061004</p>
                 </div>
-                <form id="loginForm">
+                
+                <!-- Alert per messaggi di errore -->
+                <div id="loginAlert" class="alert alert-danger d-none" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <span id="alertMessage"></span>
+                </div>
+                
+                <form id="loginForm" onsubmit="return handleLogin(event)">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            <input type="text" class="form-control" id="username"required value="">
+                            <input type="text" class="form-control" id="username" placeholder="Username" required>
                         </div>
                     </div>
                     <div class="mb-4">
                         <label for="password" class="form-label">Password</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                            <input type="password" class="form-control" id="password" placeholder="Password" required value="">
+                            <input type="password" class="form-control" id="password" placeholder="Password" required>
                         </div>
                     </div>
                     <div class="d-grid mt-4">
-                        <button type="submit" class="btn login-btn">Accedi <i class="fas fa-sign-in-alt ms-1"></i></button>
+                        <button type="submit" class="btn login-btn">
+                            Accedi <i class="fas fa-sign-in-alt ms-1"></i>
+                        </button>
                     </div>
                 </form>
+                
+                <div class="text-center mt-3">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Per la demo: username e password qualsiasi
+                    </small>
+                </div>
+                
                 <div class="powered-by d-flex justify-content-center align-items-center mt-4 pt-3 border-top">
                     <span class="me-2 text-muted small">Powered by</span>
-                    <img src="assets/img/kitzanos_logo_scuro.png" alt="Kitzanos Logo"> <!-- Assicurati che il path sia corretto -->
+                    <img src="assets/img/kitzanos_logo_scuro.png" alt="Kitzanos Logo">
                 </div>
             </div>
         </div>
-         <div class="watermark-login">
-             SCAN360 © 2025 Kitzanos Lab | Report elaborato il 10/06/2025
-         </div>
+        <div class="watermark-login">
+            SCAN360 © <span id="currentYear">2025</span> Kitzanos Lab | Report elaborato il 10/06/2025
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="js/common.js"></script>
+    
+    <!-- Script inline per il login -->
     <script>
-        document.getElementById('currentYearLogin').textContent = new Date().getFullYear();
-        const loginForm = document.getElementById('loginForm');
-        if(loginForm) {
-            loginForm.addEventListener('submit', handleLogin); // Usa la funzione da common.js
+        // Imposta l'anno corrente
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        /**
+         * Funzione per gestire il login
+         * @param {Event} event - Evento submit del form
+         */
+        function handleLogin(event) {
+            if (event) event.preventDefault();
+            
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const alertDiv = document.getElementById('loginAlert');
+            const alertMessage = document.getElementById('alertMessage');
+
+            if (!usernameInput || !passwordInput) {
+                console.error("Elementi username o password non trovati nel form.");
+                showError('Errore nel form di login.');
+                return false;
+            }
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Validazione credenziali
+            if (username && password) {
+                console.log('Login successful per', username);
+                
+                // Salva stato login
+                try {
+                    localStorage.setItem('scanUserLoggedIn', 'true');
+                    localStorage.setItem('scanUsername', username);
+                    
+                    // Nascondi eventuali errori
+                    alertDiv.classList.add('d-none');
+                    
+                    // Reindirizza alla dashboard principale
+                    window.location.href = 'index.html';
+                } catch (e) {
+                    console.error("Errore durante il salvataggio in localStorage:", e);
+                    showError("Impossibile salvare lo stato del login. Verifica le impostazioni del browser.");
+                }
+            } else {
+                showError('Inserisci username e password.');
+            }
+            
+            return false;
+        }
+        
+        /**
+         * Mostra un messaggio di errore
+         * @param {string} message - Messaggio da mostrare
+         */
+        function showError(message) {
+            const alertDiv = document.getElementById('loginAlert');
+            const alertMessage = document.getElementById('alertMessage');
+            
+            alertMessage.textContent = message;
+            alertDiv.classList.remove('d-none');
+            
+            // Nascondi l'errore dopo 5 secondi
+            setTimeout(() => {
+                alertDiv.classList.add('d-none');
+            }, 5000);
+        }
+        
+        // Controlla se l'utente è già loggato
+        try {
+            if (localStorage.getItem('scanUserLoggedIn') === 'true') {
+                window.location.href = 'index.html';
+            }
+        } catch (e) {
+            console.error("Errore nel controllo dello stato di login:", e);
         }
     </script>
+    
+    <!-- Script del bot -->
     <script 
       type="text/javascript" 
       src="https://embed.chatnode.ai/4b455f88-b08f-4f27-a83b-59b94cdb3711/popup.js"
