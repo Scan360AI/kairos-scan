@@ -111,12 +111,7 @@
                     </div>
                 </form>
                 
-                <div class="text-center mt-3">
-                    <small class="text-muted">
-                        <i class="fas fa-info-circle me-1"></i>
-                        Per la demo: username e password qualsiasi
-                    </small>
-                </div>
+
                 
                 <div class="powered-by d-flex justify-content-center align-items-center mt-4 pt-3 border-top">
                     <span class="me-2 text-muted small">Powered by</span>
@@ -157,8 +152,8 @@
             const username = usernameInput.value.trim();
             const password = passwordInput.value.trim();
 
-            // Validazione credenziali
-            if (username && password) {
+            // Validazione credenziali - DEVE ESSERE KairosAdmin / Kairos2025
+            if (username === 'KairosAdmin' && password === 'Kairos2025') {
                 console.log('Login successful per', username);
                 
                 // Salva stato login
@@ -176,7 +171,13 @@
                     showError("Impossibile salvare lo stato del login. Verifica le impostazioni del browser.");
                 }
             } else {
-                showError('Inserisci username e password.');
+                showError('Credenziali non valide. Riprova.');
+                try {
+                    localStorage.removeItem('scanUserLoggedIn');
+                    localStorage.removeItem('scanUsername');
+                } catch (e) {
+                    console.error("Errore durante la rimozione da localStorage:", e);
+                }
             }
             
             return false;
